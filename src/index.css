@@ -1,0 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+    border-box:sizing;
+}
+ thead th,td{
+    text-align: center;
+}
