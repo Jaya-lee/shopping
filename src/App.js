@@ -17,7 +17,7 @@ class App extends Component {
         e.preventDefault();
         if(this.state.books && this.state.price && this.state.num){
             this.setState({   //设置好每个数组的值
-                data:[...this.state.data,{name:this.state.books,price:this.state.price,number:this.state.num,Uall:this.state.price*this.state.num,id:Date.now()}]
+                data:[...this.state.data,{name:this.state.books,price:this.state.price,number:this.state.num,Uall:parseFloat(this.state.price)*Number(this.state.num),id:Date.now()}]
             })
         }
         e.target.reset() //清空表单里的内容
@@ -60,10 +60,12 @@ class App extends Component {
                         </thead>
                         <tbody>
                             <tr>
+                                {/* 利用map与reduce来实现总计功能 */}
                                 <td colSpan="5">总计(元):
                                     {this.state.data.map(item =>item.id===0 ?''
-                                    : item.Uall
-                                )}
+                                    : item.Uall).reduce((prev,cur) =>
+                                    parseFloat(prev + cur))
+                                    }
                                 </td>
                             </tr>
                         </tbody>
@@ -75,14 +77,14 @@ class App extends Component {
                         value={this.state.id}
                         onChange={this.handleChange.bind(this)}/>
                   </div>
-                  <div className="form-group">
+                  <div className="form-group ">
                     <label htmlFor="price">单价</label>
-                    <input type="number" className="form-control" id="price" placeholder="0" value={this.state.id}
+                    <input type="number" min="1" step='0.01' className="form-control" id="price" placeholder="1" value={this.state.id}
                     onChange={this.handleChange.bind(this)}/>
                   </div>
                   <div className="form-group">
                     <label htmlFor="num">数量</label>
-                    <input type="number" id="num" className="form-control" placeholder="0" value={this.state.id}
+                    <input type="number" min="1" id="num" className="form-control" placeholder="1" value={this.state.id}
                     onChange={this.handleChange.bind(this)}/>
                   </div>
                    <button type="submit" className="btn btn-primary">添加</button>
